@@ -1,0 +1,26 @@
+# Veri seti (script otomatik indirir)
+data/
+
+# Model ağırlıkları (GitHub 100 MB sınırı -> GitHub Releases ile paylaşılır)
+models/*.pth
+models/*.pt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Gradio
+flagged/
+.gradio/
+
+# Gizli bilgiler
+.env
+
+# Sistem / editör
+.DS_Store
+.vscode/
