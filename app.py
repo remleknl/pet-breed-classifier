@@ -29,6 +29,11 @@ if not Path(args.ckpt).exists():
 device = get_device()
 model, class_names, ckpt = load_checkpoint(args.ckpt, device)
 
+# Isınma: ilk GPU çağrısı yavaş olur, kullanıcının ilk tahmini gecikmesin
+from PIL import Image
+
+predict_image(model, Image.new("RGB", (256, 256)), class_names, device)
+
 
 def predict(img):
     if img is None:

@@ -24,3 +24,6 @@ flagged/
 # Sistem / editör
 .DS_Store
 .vscode/
+
+# Colab çıktı arşivi
+*.zip

@@ -6,7 +6,7 @@ transfer learning ile eğitilmiş bir derin öğrenme modeli ve bu modeli kullan
 | | |
 |---|---|
 | **Görev** | Görüntü sınıflandırma (37 sınıf) |
-| **Model** | ResNet-50 (ImageNet ön-eğitimli, transfer learning). Karşılaştırma için sıfırdan eğitilen basit CNN |
+| **Model** | ResNet-50 (ImageNet ön-eğitimli, transfer learning) |
 | **Veri seti** | [Oxford-IIIT Pet](https://www.robots.ox.ac.uk/~vgg/data/pets/): 7.349 görüntü, 12 kedi ve 25 köpek ırkı |
 | **Uygulama** | Gradio |
 
@@ -86,20 +86,60 @@ sayfasında; indirip `models/best_model.pth` olarak kaydedin.
 | Loss | CrossEntropyLoss (label smoothing 0.1) | Çok sınıflı sınıflandırma. Smoothing aşırı güveni azaltır |
 | Early stopping | 4 epoch boyunca val acc iyileşmezse durur | En iyi doğrulama modeli kaydedilir |
 
+## Eğitim Ortamı
+
+- **Eğitim:** Google Colab, NVIDIA Tesla T4 GPU (15 GB), PyTorch 2.14 + CUDA
+- **Uygulama ve telefon testleri:** Apple M1, 16 GB RAM, PyTorch MPS
+
 ## Sonuçlar
 
-> Eğitim tamamlandıktan sonra `results/` dosyalarındaki değerlerle doldurulacak.
+### Test kümesi (3.669 görüntü)
 
-| Model | Accuracy | Precision (macro) | Recall (macro) | F1 (macro) | Top-5 Acc | Eğitim süresi | Tahmin süresi (1 görüntü) |
-|---|---|---|---|---|---|---|---|
-| ResNet-50 | | | | | | | |
-| SimpleCNN | | | | | | | |
+| Metrik | Değer |
+|---|---|
+| Accuracy | **%92.45** |
+| Precision (macro) | 0.9265 |
+| Recall (macro) | 0.9241 |
+| F1-score (macro) | 0.9235 |
+| Top-5 Accuracy | %98.96 |
+| En iyi doğrulama doğruluğu | %96.20 (11. epoch) |
 
-Donanım: Apple M1, 16 GB (PyTorch MPS)
+### Süreler
 
-- Eğitim eğrileri: `results/best_model_training_curves.png`
-- Confusion matrix: `results/best_model_confusion_matrix.png`
-- Yanlış sınıflandırılan örnekler: `results/best_model_misclassified.png`
+| | Değer |
+|---|---|
+| Toplam eğitim süresi (T4 GPU) | 9.8 dk (15 epoch, ~40 sn/epoch) |
+| Tek görüntü tahmini, NVIDIA T4 GPU | 7.8 ms |
+| Tek görüntü tahmini, Apple M1 GPU (MPS) | 14.9 ms |
+| Tek görüntü tahmini, Apple M1 CPU | 34.5 ms |
+| Toplu tahmin (batch 64), T4 GPU | 360 görüntü/sn |
+
+### Eğitim eğrileri
+
+![Eğitim eğrileri](results/best_model_training_curves.png)
+
+Kesikli çizgi, gövdenin çözülüp tüm ağın eğitilmeye başlandığı (fine-tune) noktayı gösterir. İlk epoch'ta yalnızca
+son katman eğitilmesine rağmen doğrulama doğruluğu %88'e ulaştı; bu, ImageNet ön-eğitiminin katkısını gösterir.
+Label smoothing (0.1) kullanıldığı için kayıp değerleri sıfıra yaklaşmaz.
+
+### Hata analizi
+
+En çok karıştırılan sınıflar görsel olarak birbirine çok benzeyen ırklardır:
+
+| Gerçek | Tahmin | Hata sayısı |
+|---|---|---|
+| American Pit Bull Terrier | Staffordshire Bull Terrier | 31 |
+| Ragdoll | Birman | 17 |
+| Egyptian Mau | Bengal | 13 |
+| Staffordshire Bull Terrier | American Bulldog | 12 |
+| American Pit Bull Terrier | American Bulldog | 12 |
+
+- En düşük F1: American Pit Bull Terrier (0.62), Staffordshire Bull Terrier (0.68), Ragdoll (0.76)
+- En yüksek F1 (~0.99): Pug, Sphynx, Japanese Chin, Shiba Inu, Leonberger, Newfoundland
+
+Ayrıntılar: [sınıf bazlı rapor](results/best_model_classification_report.txt),
+[confusion matrix](results/best_model_confusion_matrix.png),
+[yanlış sınıflandırılan örnekler](results/best_model_misclassified.png)
 
 ## Telefon Fotoğraflarıyla Test
 

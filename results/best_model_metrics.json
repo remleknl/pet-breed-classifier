@@ -1,0 +1,78 @@
+{
+  "checkpoint": "models/best_model.pth",
+  "arch": "resnet50",
+  "test_samples": 3669,
+  "accuracy": 0.9245025892613791,
+  "top5_accuracy": 0.9896429544835105,
+  "precision_macro": 0.9265314570969089,
+  "recall_macro": 0.9241223679521077,
+  "f1_macro": 0.9234829616205081,
+  "precision_weighted": 0.9275629555880305,
+  "recall_weighted": 0.9245025892613791,
+  "f1_weighted": 0.9241968465020409,
+  "inference": {
+    "device": "cuda",
+    "batch_size": 64,
+    "throughput_img_per_s": 360.278051511974,
+    "latency_ms_batch1_cuda": {
+      "mean": 7.750043240016566,
+      "std": 2.178387120364408
+    },
+    "latency_ms_batch1_cpu": {
+      "mean": 142.96462297999824,
+      "std": 23.359184961297974
+    }
+  },
+  "most_confused_pairs": [
+    {
+      "gercek": "American Pit Bull Terrier",
+      "tahmin": "Staffordshire Bull Terrier",
+      "adet": 31
+    },
+    {
+      "gercek": "Ragdoll",
+      "tahmin": "Birman",
+      "adet": 17
+    },
+    {
+      "gercek": "Egyptian Mau",
+      "tahmin": "Bengal",
+      "adet": 13
+    },
+    {
+      "gercek": "Staffordshire Bull Terrier",
+      "tahmin": "American Bulldog",
+      "adet": 12
+    },
+    {
+      "gercek": "American Pit Bull Terrier",
+      "tahmin": "American Bulldog",
+      "adet": 12
+    },
+    {
+      "gercek": "Birman",
+      "tahmin": "Ragdoll",
+      "adet": 10
+    },
+    {
+      "gercek": "Staffordshire Bull Terrier",
+      "tahmin": "American Pit Bull Terrier",
+      "adet": 10
+    },
+    {
+      "gercek": "Maine Coon",
+      "tahmin": "Ragdoll",
+      "adet": 8
+    },
+    {
+      "gercek": "Persian",
+      "tahmin": "Ragdoll",
+      "adet": 7
+    },
+    {
+      "gercek": "Basset Hound",
+      "tahmin": "Beagle",
+      "adet": 6
+    }
+  ]
+}
