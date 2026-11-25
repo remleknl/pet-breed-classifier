@@ -143,9 +143,48 @@ Ayrıntılar: [sınıf bazlı rapor](results/best_model_classification_report.tx
 
 ## Telefon Fotoğraflarıyla Test
 
+Fotoğraflar telefon kamerasıyla, bilgisayar ekranında açılan görsellerden çekilmiştir. Komut:
+`python -m src.predict_phone`
+
 ![Telefon tahminleri](results/phone_predictions.png)
 
-> `results/phone_results.md` içeriği buraya yapıştırılacak ve yorumlanacak.
+| # | Fotoğraf | Gerçek | Tahmin (Top-1) | Güven | Top-5'te mi? | Sonuç |
+|---|---|---|---|---|---|---|
+| 1 | photo_1.jpeg | Saint Bernard | Saint Bernard | %91.0 | Evet | ✅ |
+| 2 | photo_2.jpeg | German Shorthaired | German Shorthaired | %72.7 | Evet | ✅ |
+| 3 | photo_3.jpeg | Keeshond | Keeshond | %77.9 | Evet | ✅ |
+| 4 | photo_4.jpeg | Bengal | Bengal | %70.1 | Evet | ✅ |
+| 5 | photo_5.jpeg | Bombay | Bombay | %90.7 | Evet | ✅ |
+
+**Top-1 doğruluk: %100 (5/5)**. Her fotoğraf için tahmin süresi Apple M1 GPU'da yaklaşık 15 ms.
+
+### Yorum
+
+**Başarılı olduğu durumlar**
+- Beş fotoğrafın tamamında model doğru ırkı birinci sırada ve yüksek farkla tahmin etti. İkinci tahminlerin olasılığı
+  en fazla %5.
+- Hayvanın tamamının görünmesi, tek hayvan olması ve kadrajın ortasında durması sınıflandırmayı kolaylaştırdı.
+- Belirgin görünüşlü ırklarda güven en yüksek çıktı: Saint Bernard (%91.0) ve tamamen siyah kürklü Bombay (%90.7).
+- Bengal kedisi, test kümesinde en çok Egyptian Mau ile karıştırılan sınıflardan biri olmasına rağmen doğru bilindi.
+  Bu fotoğraftaki belirgin rozet desenli kürk ayırt edici oldu.
+
+**Güvenin düştüğü durumlar**
+- **German Shorthaired (%72.7):** Görselde ekran çekiminden kaynaklanan izler var: ekran dokusu, köşede görsel arama
+  simgesi ve boyut etiketi. Hayvanın kadrajı kaplama oranı da küçük.
+- **Keeshond (%77.9):** İkinci tahmin %5 ile Pomeranian. İki ırk da kabarık tüylü, spitz tipi köpekler olduğu için bu
+  karışıklık anlamlı.
+- **Bengal (%70.1):** Arka plan karanlık ve yeşil tonlu; hayvan profilden ve hareket halinde.
+
+**Sınırlamalar**
+- Bu örnekte başarısız tahmin olmadı, ancak 5 fotoğraf genelleme için küçük bir örneklem. Fotoğraflar ekrandaki
+  profesyonel ırk görsellerinden çekildiği için eğitim verisine (internetten toplanmış fotoğraflar) benziyor; bu da
+  sonucu iyimser yapıyor. Gerçek ortamda, kısmen görünen, birden fazla olan veya hareketli hayvanlarda başarının
+  düşmesi beklenir.
+- Test kümesinde en zor sınıflar birbirine çok benzeyen ırklardı (American Pit Bull Terrier ↔ Staffordshire Bull
+  Terrier, Ragdoll ↔ Birman). Bu ırklardan bir fotoğraf olsaydı hata olasılığı daha yüksek olurdu.
+- Model yalnızca 37 ırktan birini seçebilir (kapalı küme sınıflandırma). Veri setinde olmayan bir ırk ya da melez bir
+  hayvan verildiğinde de bu 37 sınıftan birini söyler. Uygulama bu yüzden güven %40'ın altına düştüğünde kullanıcıyı
+  uyarıyor.
 
 ## Uygulama
 
