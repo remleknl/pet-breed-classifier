@@ -190,4 +190,9 @@ Fotoğraflar telefon kamerasıyla, bilgisayar ekranında açılan görsellerden 
 
 ## Uygulama
 
-> Gradio arayüzünün ekran görüntüsü buraya eklenecek.
+Uygulama `python app.py` komutuyla başlatılır ve `http://127.0.0.1:7860` adresinde açılır. Kullanıcı bir fotoğraf
+yükler; uygulama en olası 5 ırkı olasılıklarıyla, hayvanın kedi mi köpek mi olduğunu ve tahmin süresini gösterir.
+
+![Uygulama ekranı 1](results/app_screenshot_1.png)
+
+![Uygulama ekranı 2](results/app_screenshot_2.png)
