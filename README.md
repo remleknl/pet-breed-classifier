@@ -22,6 +22,8 @@ transfer learning ile eğitilmiş bir derin öğrenme modeli ve bu modeli kullan
 │   ├── evaluate.py         # Test metrikleri, confusion matrix, tahmin süresi
 │   ├── predict_phone.py    # Telefon fotoğraflarıyla test
 │   └── utils.py            # Ortak fonksiyonlar (cihaz, dönüşümler, tahmin)
+├── notebooks/
+│   └── colab_training.ipynb  # Colab'da yapılan eğitim ve değerlendirme (çıktılarıyla)
 ├── phone_photos/           # Telefonla çekilen 5 fotoğraf ve labels.csv
 ├── models/                 # Eğitilmiş model (git'e eklenmez, bkz. Releases)
 ├── results/                # Grafikler ve metrik dosyaları
